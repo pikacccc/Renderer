@@ -21,16 +21,23 @@
     <ClCompile Include="GLAD\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\ShaderCompiler\ShanderCompiler.cpp">
+    <ClCompile Include="src\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderCompiler\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ShaderCompiler\ShanderCompiler.h">
+    <ClInclude Include="src\ShaderCompiler\ShaderCompiler.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\ShaderCompiler\Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\shader-1.fs" />
+    <None Include="Shader\shader-1.vs" />
   </ItemGroup>
 </Project>

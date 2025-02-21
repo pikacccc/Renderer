@@ -135,11 +135,16 @@
   <ItemGroup>
     <ClCompile Include="GLAD\glad.c" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ShaderCompiler\ShanderCompiler.cpp" />
+    <ClCompile Include="src\ShaderCompiler\Shader.cpp" />
+    <ClCompile Include="src\ShaderCompiler\ShaderCompiler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ShaderCompiler\Shader.h" />
-    <ClInclude Include="src\ShaderCompiler\ShanderCompiler.h" />
+    <ClInclude Include="src\ShaderCompiler\ShaderCompiler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\shader-1.fs" />
+    <None Include="Shader\shader-1.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
