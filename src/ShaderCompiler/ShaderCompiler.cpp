@@ -1,6 +1,6 @@
-#include "ShanderCompiler.h"
+#include "ShaderCompiler.h"
 
-static unsigned int shader_compiler::compile_shader(unsigned int shader_type, std::string& source)
+static unsigned int shader_compiler::compile_shader(unsigned int shader_type, const std::string& source)
 {
 	unsigned int id = glCreateShader(shader_type);
 	const char* src = source.c_str();
@@ -25,12 +25,12 @@ static unsigned int shader_compiler::compile_shader(unsigned int shader_type, st
 	return id;
 }
 
-unsigned int shader_compiler::create_shader(std::string& vs_source_code, std::string& fs_source_code)
+unsigned int shader_compiler::create_shader(const std::string& vs_source_code, const std::string& fs_source_code)
 {
 	unsigned int program = glCreateProgram();
 	unsigned int vs = shader_compiler::compile_shader(GL_VERTEX_SHADER, vs_source_code);
 	unsigned int fs = shader_compiler::compile_shader(GL_FRAGMENT_SHADER, fs_source_code);
-	
+
 	if (vs == 0 || fs == 0) {
 		std::cout << "Failed to compile shaders!" << std::endl;
 		return 0;
@@ -47,7 +47,7 @@ unsigned int shader_compiler::create_shader(std::string& vs_source_code, std::st
 	return program;
 }
 
-unsigned int shader_compiler::create_shader(std::string& vs_path, std::string& fs_path)
+unsigned int shader_compiler::create_shader_by_path(const std::string& vs_path, const std::string& fs_path)
 {
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -77,22 +77,5 @@ unsigned int shader_compiler::create_shader(std::string& vs_path, std::string& f
 		return 0;
 	}
 
-	unsigned int program = glCreateProgram();
-	unsigned int vs = shader_compiler::compile_shader(GL_VERTEX_SHADER, vertexCode);
-	unsigned int fs = shader_compiler::compile_shader(GL_FRAGMENT_SHADER, fragmentCode);
-
-	if (vs == 0 || fs == 0) {
-		std::cout << "Failed to compile shaders!" << std::endl;
-		return 0;
-	}
-
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	glLinkProgram(program);
-	glValidateProgram(program);
-
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-
-	return program;
+	return shader_compiler::create_shader(vertexCode, fragmentCode);
 }
