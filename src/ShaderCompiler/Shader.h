@@ -9,25 +9,23 @@
 #include <sstream>
 #include <iostream>
 #include "ShaderCompiler.h"
-#include "glm/vec2.hpp"
-#include "glm/vec3.hpp"
-#include "glm/vec4.hpp"
+#include "glm/glm.hpp"
 
-class Shader
+class shader
 {
 public:
 	unsigned int id;
 
-	Shader(const std::string& vertexPath, const std::string& fragmentPath);
-	~Shader();
+	shader(const std::string& vertex_path, const std::string& fragment_path);
+	~shader();
 
 	void use();
 
-	void setBool(const std::string& name, bool value) const;
-	void setInt(const std::string& name, int value) const;
-	void setFloat(const std::string& name, float value) const;
-	void setVec2(const std::string& name, const glm::vec2& value) const;
-	void setVec3(const std::string& name, const glm::vec3& value) const;
-	void setVec4(const std::string& name, const glm::vec4& value) const;
+	void set_bool(const std::string& name, bool value) const;
+	void set_int(const std::string& name, int value) const;
+	void set_float(const std::string& name, float value) const;
+	void set_vec2(const std::string& name, const glm::vec2& value) const;
+	void set_vec3(const std::string& name, const glm::vec3& value) const;
+	void set_vec4(const std::string& name, const glm::vec4& value) const;
 };
 #endif

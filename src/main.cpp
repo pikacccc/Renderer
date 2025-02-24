@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ShaderCompiler/Shader.h"
 #include "TextureLoader/Texture2d.h"
+#include "glm/glm.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
@@ -49,8 +50,8 @@ int main() {
 	};
 
 	unsigned int indices[] = {
-	0, 1, 3, 
-	1, 2, 3 
+	0, 1, 3,
+	1, 2, 3
 	};
 
 	unsigned int VAO, VB0, EBO;
@@ -78,10 +79,10 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	Shader shader("Shader/shader-1.vs", "Shader/shader-1.fs");
+	shader shader("Shader/shader-1.vs", "Shader/shader-1.fs");
 	shader.use();
 
-	Texture2d wall("resource/texture/container.jpg");
+	texture2d wall("resource/texture/container.jpg");
 	wall.use();
 
 	glBindVertexArray(VAO);

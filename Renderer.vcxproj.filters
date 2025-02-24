@@ -33,7 +33,10 @@
     <ClCompile Include="Src\TextureLoader\Texture2d.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Src\TextureLoader\texture_loader.cpp">
+    <ClCompile Include="Src\TextureLoader\TextureLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Camera\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +50,16 @@
     <ClInclude Include="Include\stb_image\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Src\TextureLoader\texture_loader.h">
+    <ClInclude Include="Src\TextureLoader\TextureLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Src\TextureLoader\Texture2d.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera\CameraDataDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

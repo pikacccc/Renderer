@@ -49,27 +49,27 @@ unsigned int shader_compiler::create_shader(const std::string& vs_source_code, c
 
 unsigned int shader_compiler::create_shader_by_path(const std::string& vs_path, const std::string& fs_path)
 {
-	std::string vertexCode;
-	std::string fragmentCode;
-	std::ifstream vShaderFile;
-	std::ifstream fShaderFile;
+	std::string vertex_code;
+	std::string fragment_code;
+	std::ifstream v_shader_file;
+	std::ifstream f_shader_file;
 	// ensure ifstream objects can throw exceptions:
-	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	v_shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	f_shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try
 	{
-		vShaderFile.open(vs_path);
-		fShaderFile.open(fs_path);
-		std::stringstream vShaderStream, fShaderStream;
+		v_shader_file.open(vs_path);
+		f_shader_file.open(fs_path);
+		std::stringstream v_shader_stream, f_shader_stream;
 
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
+		v_shader_stream << v_shader_file.rdbuf();
+		f_shader_stream << f_shader_file.rdbuf();
 		// close file handlers
-		vShaderFile.close();
-		fShaderFile.close();
+		v_shader_file.close();
+		f_shader_file.close();
 		// convert stream into string
-		vertexCode = std::move(vShaderStream.str());
-		fragmentCode = std::move(fShaderStream.str());
+		vertex_code = std::move(v_shader_stream.str());
+		fragment_code = std::move(f_shader_stream.str());
 	}
 	catch (std::ifstream::failure& e)
 	{
@@ -77,5 +77,5 @@ unsigned int shader_compiler::create_shader_by_path(const std::string& vs_path, 
 		return 0;
 	}
 
-	return shader_compiler::create_shader(vertexCode, fragmentCode);
+	return shader_compiler::create_shader(vertex_code, fragment_code);
 }

@@ -1,4 +1,4 @@
-#include "texture_loader.h"
+#include "TextureLoader.h"
 
 unsigned int texture_loader::load_texture_2d(const std::string& source_path, int& width, int& height, int& nr_channels)
 {

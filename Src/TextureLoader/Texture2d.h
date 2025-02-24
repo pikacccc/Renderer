@@ -1,7 +1,7 @@
 #pragma once
-#include "texture_loader.h"
+#include "TextureLoader.h"
 
-class Texture2d
+class texture2d
 {
 public:
 	unsigned int id;
@@ -9,8 +9,8 @@ public:
 	int height;
 	int nr_channels;
 
-	Texture2d(const std::string& source_path);
-	~Texture2d();
+	texture2d(const std::string& source_path);
+	~texture2d();
 
 	void use();
 };
