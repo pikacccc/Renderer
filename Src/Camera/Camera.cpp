@@ -11,11 +11,11 @@ void camera::process_key_board(camera_data_define::camera_movement direction, fl
 	float velocity = movement_speed * delta_time;
 	if (direction == camera_data_define::camera_movement::FORWARD)
 		position += front * velocity;
-	if (direction == camera_data_define::camera_movement::FORWARD)
+	if (direction == camera_data_define::camera_movement::BACKWARD)
 		position -= front * velocity;
-	if (direction == camera_data_define::camera_movement::FORWARD)
+	if (direction == camera_data_define::camera_movement::LEFT)
 		position -= right * velocity;
-	if (direction == camera_data_define::camera_movement::FORWARD)
+	if (direction == camera_data_define::camera_movement::RIGHT)
 		position += right * velocity;
 }
 
@@ -27,7 +27,6 @@ void camera::process_mouse_movement(float x_offset, float y_offset, GLboolean co
 	yaw += x_offset;
 	pitch += y_offset;
 
-	// make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (constrain_pitch)
 	{
 		if (pitch > 89.0f)
@@ -36,7 +35,6 @@ void camera::process_mouse_movement(float x_offset, float y_offset, GLboolean co
 			pitch = -89.0f;
 	}
 
-	// update Front, Right and Up Vectors using the updated Euler angles
 	update_camera_vectors();
 }
 
