@@ -86,7 +86,6 @@ int main() {
 
 	glBindVertexArray(VAO);
 
-	vector::vec4 custom_color(0.0f, 0.0f, 0.0f, 0.0f);
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
