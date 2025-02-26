@@ -58,10 +58,10 @@ int main() {
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 	glEnable(GL_DEPTH_TEST);
 
-	shader shader("Shader/shader-1.vs", "Shader/shader-1.fs");
+	shader shader("Shader/model_loading.vs", "Shader/model_loading.fs");
 
 	model_loader::model backpack("resource/object/cyborg/cyborg.obj");
 
@@ -74,7 +74,7 @@ int main() {
 		process_input(window);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.use();
 
