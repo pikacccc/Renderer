@@ -7,6 +7,7 @@
 #include "glm/glm.hpp"
 #include "Camera/Camera.h"
 #include "Util/Util.h"
+#include "Model/Model.h"
 
 //callback
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -56,23 +57,13 @@ int main() {
 	glfwSetScrollCallback(window, scroll_callback);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	std::array<float, 32> vertices = {
-		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
-	};
 
-	std::array<unsigned int, 6> indices = {
-		0, 1, 3,
-		1, 2, 3
-	};
-
-	unsigned int VAO = util::set_vertex_array_object(vertices, indices);
+	stbi_set_flip_vertically_on_load(true);
+	glEnable(GL_DEPTH_TEST);
 
 	shader shader("Shader/shader-1.vs", "Shader/shader-1.fs");
-	texture2d wall("resource/texture/container.jpg");
+
+	model_loader::model backpack("resource/object/cyborg/cyborg.obj");
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -80,26 +71,24 @@ int main() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
+		process_input(window);
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		process_input(window);
-
 		shader.use();
 
-		glm::mat4 model(1.0f);
-		shader.set_mat4("model", model);
+		glm::mat4 projection = glm::perspective(glm::radians(m_camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view = m_camera.get_view_matrix();
 
-		glm::mat4 view(m_camera.get_view_matrix());
+		shader.set_mat4("projection", projection);
 		shader.set_mat4("view", view);
 
-		glm::mat4 projection = glm::perspective(glm::radians(m_camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		shader.set_mat4("projection", projection);
-
-		wall.use();
-
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		shader.set_mat4("model", model);
+		backpack.draw(shader);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -128,7 +117,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
-
 
 void mouse_callback(GLFWwindow* window, double x_pos_in, double y_pos_in)
 {
