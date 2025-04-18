@@ -166,11 +166,20 @@
     <ClInclude Include="Src\Util\Util.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\aperture.fs" />
+    <None Include="Shader\mix.fs" />
+    <None Include="Shader\Pinku.fs" />
     <None Include="Shader\shader-1.fs" />
     <None Include="Shader\shader-1.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\container.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shader\texture_shader.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Shader\texture_shader.fs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

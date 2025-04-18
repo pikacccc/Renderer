@@ -3,11 +3,10 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 #include "ShaderCompiler/Shader.h"
-#include "TextureLoader/Texture2d.h"
 #include "glm/glm.hpp"
 #include "Camera/Camera.h"
-#include "Util/Util.h"
 #include "Model/Model.h"
+#include "Util/Util.h"
 
 //callback
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -16,11 +15,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+unsigned int SCR_WIDTH = 800;
+unsigned int SCR_HEIGHT = 600;
 
 // camera
-camera m_camera{ glm::vec3(0.0f,0.0f,3.0f) };
+camera m_camera{ glm::vec3(0.0f, 0.0f, 4.0f) };
 float last_x = SCR_WIDTH / 2.0f;
 float last_y = SCR_HEIGHT / 2.0f;
 bool first_mouse = true;
@@ -29,7 +28,8 @@ bool first_mouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int main() {
+int main()
+{
 	GLFWwindow* window;
 
 	if (!glfwInit())
@@ -39,14 +39,16 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = glfwCreateWindow(800, 600, "hello world", NULL, NULL);
-	if (!window) {
+	if (!window)
+	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
@@ -58,12 +60,24 @@ int main() {
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	stbi_set_flip_vertically_on_load(false);
+	stbi_set_flip_vertically_on_load(true);
 	glEnable(GL_DEPTH_TEST);
 
-	shader shader("Shader/model_loading.vs", "Shader/model_loading.fs");
+	shader shader("Shader/texture_shader.vs", "Shader/balatro_background_shader.fs");
 
-	model_loader::model backpack("resource/object/cyborg/cyborg.obj");
+	std::array vertices = {
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+	};
+
+	std::array indices = {
+		0, 1, 2,
+		1, 3, 2
+	};
+
+	unsigned int VAO = util::set_vertex_array_object(vertices, indices);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -78,17 +92,21 @@ int main() {
 
 		shader.use();
 
-		glm::mat4 projection = glm::perspective(glm::radians(m_camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(m_camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f,
+			100.0f);
 		glm::mat4 view = m_camera.get_view_matrix();
 
 		shader.set_mat4("projection", projection);
 		shader.set_mat4("view", view);
 
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		shader.set_mat4("model", model);
-		backpack.draw(shader);
+		shader.set_float("time", currentFrame);
+		shader.set_vec2("resolution", glm::vec2(SCR_WIDTH, SCR_HEIGHT));
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -116,6 +134,8 @@ void process_input(GLFWwindow* window)
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	SCR_WIDTH = width;
+	SCR_HEIGHT = height;
 }
 
 void mouse_callback(GLFWwindow* window, double x_pos_in, double y_pos_in)

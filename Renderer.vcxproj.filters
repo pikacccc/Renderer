@@ -84,6 +84,9 @@
   <ItemGroup>
     <None Include="Shader\shader-1.fs" />
     <None Include="Shader\shader-1.vs" />
+    <None Include="Shader\aperture.fs" />
+    <None Include="Shader\mix.fs" />
+    <None Include="Shader\Pinku.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\container.jpg">
